@@ -1,5 +1,8 @@
+import com.android.build.gradle.LibraryExtension
 import com.gradle.develocity.agent.gradle.test.ImportJUnitXmlReports
 import com.gradle.develocity.agent.gradle.test.JUnitXmlDialect
+import org.gradle.internal.extensions.stdlib.capitalized
+import org.gradle.kotlin.dsl.configure
 
 /*
  * Copyright 2022 The Android Open Source Project
@@ -41,9 +44,20 @@ dependencies {
 }
 
 afterEvaluate {
-    ImportJUnitXmlReports.register(
-        tasks,
-        tasks.named("pixel6api31aospDemoDebugAndroidTest"),
-        JUnitXmlDialect.GENERIC,
-    )
+    extensions.configure<LibraryExtension> {
+        testVariants.forEach { testVariant ->
+            ImportJUnitXmlReports.register(
+                tasks,
+                tasks.named("connected${testVariant.name.capitalized()}"),
+                JUnitXmlDialect.GENERIC,
+            )
+            testOptions.managedDevices.allDevices.forEach { device ->
+                ImportJUnitXmlReports.register(
+                    tasks,
+                    tasks.named("${device.name}${testVariant.name.capitalized()}"),
+                    JUnitXmlDialect.GENERIC,
+                )
+            }
+        }
+    }
 }
