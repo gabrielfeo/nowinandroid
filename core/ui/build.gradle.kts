@@ -1,3 +1,6 @@
+import com.gradle.develocity.agent.gradle.test.ImportJUnitXmlReports
+import com.gradle.develocity.agent.gradle.test.JUnitXmlDialect
+
 /*
  * Copyright 2022 The Android Open Source Project
  *
@@ -35,4 +38,12 @@ dependencies {
 
     androidTestImplementation(libs.bundles.androidx.compose.ui.test)
     androidTestImplementation(projects.core.testing)
+}
+
+afterEvaluate {
+    ImportJUnitXmlReports.register(
+        tasks,
+        tasks.named("pixel6api31aospDemoDebugAndroidTest"),
+        JUnitXmlDialect.GENERIC,
+    )
 }
