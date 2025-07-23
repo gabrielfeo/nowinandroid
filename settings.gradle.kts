@@ -29,6 +29,11 @@ pluginManagement {
     }
 }
 
+plugins {
+    id("com.gradle.develocity") version "4.1"
+    id("com.gradle.common-custom-user-data-gradle-plugin") version "2.3"
+}
+
 dependencyResolutionManagement {
     repositoriesMode = RepositoriesMode.FAIL_ON_PROJECT_REPOS
     repositories {
@@ -82,4 +87,8 @@ check(JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17)) {
     Java Home: [${System.getProperty("java.home")}]
     https://developer.android.com/build/jdks#jdk-config-in-studio
     """.trimIndent()
+}
+
+develocity {
+    server = "https://ge.solutions-team.gradle.com"
 }
