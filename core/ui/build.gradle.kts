@@ -42,22 +42,3 @@ dependencies {
     androidTestImplementation(libs.bundles.androidx.compose.ui.test)
     androidTestImplementation(projects.core.testing)
 }
-
-afterEvaluate {
-    extensions.configure<LibraryExtension> {
-        testVariants.forEach { testVariant ->
-            ImportJUnitXmlReports.register(
-                tasks,
-                tasks.named("connected${testVariant.name.capitalized()}"),
-                JUnitXmlDialect.GENERIC,
-            )
-            testOptions.managedDevices.allDevices.forEach { device ->
-                ImportJUnitXmlReports.register(
-                    tasks,
-                    tasks.named("${device.name}${testVariant.name.capitalized()}"),
-                    JUnitXmlDialect.GENERIC,
-                )
-            }
-        }
-    }
-}

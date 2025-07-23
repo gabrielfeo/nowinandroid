@@ -15,6 +15,7 @@
  */
 
 import com.android.build.gradle.TestExtension
+import com.google.samples.apps.nowinandroid.configureBuildScan
 import com.google.samples.apps.nowinandroid.configureGradleManagedDevices
 import com.google.samples.apps.nowinandroid.configureKotlinAndroid
 import org.gradle.api.Plugin
@@ -32,6 +33,7 @@ class AndroidTestConventionPlugin : Plugin<Project> {
                 configureKotlinAndroid(this)
                 defaultConfig.targetSdk = 35
                 configureGradleManagedDevices(this)
+                configureBuildScan(target, this)
             }
         }
     }

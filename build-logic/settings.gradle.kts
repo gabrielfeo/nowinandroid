@@ -30,6 +30,11 @@ dependencyResolutionManagement {
                 includeGroupByRegex("androidx.*")
             }
         }
+        gradlePluginPortal {
+            content {
+                includeModule("com.gradle", "develocity-gradle-plugin")
+            }
+        }
         mavenCentral()
     }
     versionCatalogs {
