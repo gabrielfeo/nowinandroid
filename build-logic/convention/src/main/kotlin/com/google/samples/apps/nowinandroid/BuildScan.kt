@@ -23,9 +23,22 @@ import com.gradle.develocity.agent.gradle.test.JUnitXmlDialect
 import org.gradle.api.Project
 
 /**
- * Configure project for Gradle managed devices
+ * Configure Gradle Build Scan for the project
  */
 internal fun configureBuildScan(
+    project: Project,
+    commonExtension: CommonExtension<*, *, *, *, *, *>,
+) {
+    importAndroidTestResults(project, commonExtension)
+}
+
+/**
+ * Import Android test results into Gradle Build Scan, for better visibility and
+ * troubleshooting of test results.
+ *
+ * Registers a `ImportJUnitXmlReports` task for each Android test task in the project.
+ */
+private fun importAndroidTestResults(
     project: Project,
     commonExtension: CommonExtension<*, *, *, *, *, *>,
 ) {
