@@ -1,3 +1,9 @@
+import com.android.build.gradle.LibraryExtension
+import com.gradle.develocity.agent.gradle.test.ImportJUnitXmlReports
+import com.gradle.develocity.agent.gradle.test.JUnitXmlDialect
+import org.gradle.internal.extensions.stdlib.capitalized
+import org.gradle.kotlin.dsl.configure
+
 /*
  * Copyright 2022 The Android Open Source Project
  *

@@ -18,6 +18,7 @@ import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import com.android.build.gradle.BaseExtension
 import com.google.samples.apps.nowinandroid.configureBadgingTasks
+import com.google.samples.apps.nowinandroid.configureBuildScan
 import com.google.samples.apps.nowinandroid.configureGradleManagedDevices
 import com.google.samples.apps.nowinandroid.configureKotlinAndroid
 import com.google.samples.apps.nowinandroid.configurePrintApksTask
@@ -41,6 +42,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 @Suppress("UnstableApiUsage")
                 testOptions.animationsDisabled = true
                 configureGradleManagedDevices(this)
+                configureBuildScan(target, this)
             }
             extensions.configure<ApplicationAndroidComponentsExtension> {
                 configurePrintApksTask(this)
