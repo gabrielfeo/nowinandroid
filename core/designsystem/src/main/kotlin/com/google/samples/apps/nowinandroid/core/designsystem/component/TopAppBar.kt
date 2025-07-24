@@ -64,7 +64,7 @@ fun NiaTopAppBar(
             IconButton(onClick = onActionClick) {
                 Icon(
                     imageVector = actionIcon,
-                    contentDescription = actionIconContentDescription,
+                    contentDescription = null,
                     tint = MaterialTheme.colorScheme.onSurface,
                 )
             }
