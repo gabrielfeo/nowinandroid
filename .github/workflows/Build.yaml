@@ -59,10 +59,7 @@ jobs:
 
   androidTest:
     runs-on: ubuntu-latest
-    timeout-minutes: 55
-    strategy:
-      matrix:
-        api-level: [26, 34]
+    timeout-minutes: 120
 
     steps:
       - name: Delete unnecessary tools 🔧
@@ -101,11 +98,4 @@ jobs:
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
 
       - name: Build projects and run instrumentation tests
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: ${{ matrix.api-level }}
-          arch: x86_64
-          disable-animations: true
-          disk-size: 6000M
-          heap-size: 600M
-          script: ./gradlew connectedDemoDebugAndroidTest --daemon
+        run: ./gradlew allDevicesCheck
