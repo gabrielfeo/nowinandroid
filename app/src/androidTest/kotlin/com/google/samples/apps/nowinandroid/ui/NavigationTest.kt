@@ -41,7 +41,6 @@ import com.google.samples.apps.nowinandroid.core.model.data.Topic
 import com.google.samples.apps.nowinandroid.core.rules.GrantPostNotificationsPermissionRule
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import kotlin.random.Random
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -102,9 +101,6 @@ class NavigationTest {
         composeTestRule.apply {
             // VERIFY for you is selected
             onNodeWithText(forYou).assertIsSelected()
-            if (Random.nextBoolean() == true) {
-                throw RuntimeException("This is a simulated cross-build flaky test")
-            }
         }
     }
 
