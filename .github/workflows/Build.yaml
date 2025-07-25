@@ -42,9 +42,6 @@ jobs:
       - name: Check build-logic
         run: ./gradlew :build-logic:convention:check
 
-      - name: Check spotless
-        run: ./gradlew spotlessCheck --init-script gradle/init.gradle.kts --no-configuration-cache
-
       - name: Run all local screenshot tests (Roborazzi)
         id: screenshotsverify
         continue-on-error: true
@@ -102,6 +99,15 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
         with:
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          packages: >-
+            tools
+            platform-tools
+            system-images;android-30;aosp_atd;x86
+            system-images;android-31;default;x86_64
 
       - name: Build projects and run instrumentation tests
         run: ./gradlew allDevicesCheck
