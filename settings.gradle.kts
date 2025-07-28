@@ -91,4 +91,7 @@ check(JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17)) {
 
 develocity {
     server = "https://ge.solutions-team.gradle.com"
+    buildScan {
+        uploadInBackground = !System.getenv("CI").isNullOrEmpty()
+    }
 }
