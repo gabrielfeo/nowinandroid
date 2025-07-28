@@ -110,4 +110,4 @@ jobs:
             system-images;android-31;default;x86_64
 
       - name: Build projects and run instrumentation tests
-        run: ./gradlew allDevicesCheck
+        run: ./gradlew :app:pixel6api31aospProdDebugAndroidTest
