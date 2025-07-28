@@ -32,7 +32,7 @@ internal fun configureGradleManagedDevices(
     val pixelC = DeviceConfig("Pixel C", 33, "aosp-atd")
 
     val allDevices = listOf(pixel4, pixel6, pixelC)
-    val ciDevices = listOf(pixel4, pixelC)
+    val ciDevices = listOf(pixel4, pixel6, pixelC)
 
     commonExtension.testOptions {
         managedDevices {
