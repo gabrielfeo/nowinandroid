@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+      - gf/develocity-instrumented-tests-demo
   pull_request:
 
 concurrency:
