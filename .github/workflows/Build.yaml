@@ -110,5 +110,8 @@ jobs:
             system-images;android-30;aosp_atd;x86
             system-images;android-31;default;x86_64
 
-      - name: Build projects and run instrumentation tests
-        run: ./gradlew :app:pixel6api31aospProdDebugAndroidTest
+      - name: Build projects
+        run: ./gradlew packageProdDebug packageProdDebugAndroidTest
+
+      - name: Run instrumentation tests
+        run: ./gradlew pixel6api31aospProdDebugAndroidTest --max-workers 2
