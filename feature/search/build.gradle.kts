@@ -22,6 +22,9 @@ plugins {
 
 android {
     namespace = "com.google.samples.apps.nowinandroid.feature.search"
+    defaultConfig {
+        testInstrumentationRunner = "com.google.samples.apps.nowinandroid.core.testing.NiaTestRunner"
+    }
 }
 
 dependencies {
@@ -31,6 +34,10 @@ dependencies {
     testImplementation(projects.core.testing)
 
     androidTestImplementation(libs.bundles.androidx.compose.ui.test)
+    androidTestImplementation(libs.hilt.android.testing)
     androidTestImplementation(projects.core.testing)
+    androidTestImplementation(projects.uiTestHiltManifest)
+
+    kspAndroidTest(libs.hilt.android.compiler)
 }
 

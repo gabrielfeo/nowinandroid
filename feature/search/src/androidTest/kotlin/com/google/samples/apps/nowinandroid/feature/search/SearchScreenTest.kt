@@ -27,7 +27,9 @@ import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performImeAction
 import androidx.compose.ui.test.performScrollToIndex
+import androidx.compose.ui.test.performTextInput
 import com.google.samples.apps.nowinandroid.core.data.model.RecentSearchQuery
 import com.google.samples.apps.nowinandroid.core.model.data.DarkThemeConfig.DARK
 import com.google.samples.apps.nowinandroid.core.model.data.ThemeBrand.ANDROID
@@ -36,6 +38,9 @@ import com.google.samples.apps.nowinandroid.core.model.data.UserNewsResource
 import com.google.samples.apps.nowinandroid.core.testing.data.followableTopicTestData
 import com.google.samples.apps.nowinandroid.core.testing.data.newsResourcesTestData
 import com.google.samples.apps.nowinandroid.core.ui.R.string
+import com.google.samples.apps.nowinandroid.uitesthiltmanifest.HiltComponentActivity
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -43,10 +48,14 @@ import org.junit.Test
 /**
  * UI test for checking the correct behaviour of the Search screen.
  */
+@HiltAndroidTest
 class SearchScreenTest {
 
     @get:Rule
-    val composeTestRule = createAndroidComposeRule<ComponentActivity>()
+    val composeTestRule = createAndroidComposeRule<HiltComponentActivity>()
+
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
 
     private lateinit var clearSearchContentDesc: String
     private lateinit var followButtonContentDesc: String
@@ -69,6 +78,7 @@ class SearchScreenTest {
 
     @Before
     fun setup() {
+        hiltRule.inject()
         composeTestRule.activity.apply {
             clearSearchContentDesc = getString(R.string.feature_search_clear_search_text_content_desc)
             clearRecentSearchesContentDesc = getString(R.string.feature_search_clear_recent_searches_content_desc)
@@ -82,6 +92,28 @@ class SearchScreenTest {
                 " " + getString(R.string.feature_search_interests) + " " + getString(R.string.feature_search_to_browse_topics)
             searchNotReadyString = getString(R.string.feature_search_not_ready)
         }
+    }
+
+    /**
+     * This test enters a version-like query and expects it to be normalized to semver (e.g., 'foo 1.0' -> 'foo 1.0.0').
+     * It will pass on API 33 and fail on API 34+ due to regex group reference behavior change.
+     */
+    @Test
+    @androidx.compose.ui.test.ExperimentalTestApi
+    fun searchQuery_withVersionNumber_isNormalizedToSemver() {
+    // Use Compose state so UI recomposes after search.
+
+        val input = "foo 1.0"
+        val expectedNormalized = "foo 1.0.0"
+
+        composeTestRule.setContent {
+            SearchRoute({}, {}, {})
+        }
+
+        val searchField = composeTestRule.onNodeWithTag("searchTextField")
+        searchField.performTextInput(input)
+        searchField.performImeAction()
+        composeTestRule.waitUntil(timeoutMillis = 10_000) { false }
     }
 
     @Test

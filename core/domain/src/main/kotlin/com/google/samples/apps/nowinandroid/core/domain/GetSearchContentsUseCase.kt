@@ -25,6 +25,7 @@ import com.google.samples.apps.nowinandroid.core.model.data.UserNewsResource
 import com.google.samples.apps.nowinandroid.core.model.data.UserSearchResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import java.util.regex.Pattern
 import javax.inject.Inject
 
 /**
@@ -38,8 +39,16 @@ class GetSearchContentsUseCase @Inject constructor(
     operator fun invoke(
         searchQuery: String,
     ): Flow<UserSearchResult> =
-        searchContentsRepository.searchContents(searchQuery)
+        searchContentsRepository.searchContents(searchQuery.withAllVersionsAsSemver())
             .mapToUserSearchResult(userDataRepository.userData)
+}
+
+/**
+ * Ensures version numbers in String are proper semver (e.g., 1.0 -> 1.0.0, 2.3 -> 2.3.0).
+ */
+private fun String.withAllVersionsAsSemver(): String {
+    val pattern = Pattern.compile("(\\b\\d+)\\.(\\d+)(\\b)(?!\\.\\d)")
+    return pattern.matcher(this).replaceAll("$1.$2.0")
 }
 
 private fun Flow<SearchResult>.mapToUserSearchResult(userDataStream: Flow<UserData>): Flow<UserSearchResult> =
